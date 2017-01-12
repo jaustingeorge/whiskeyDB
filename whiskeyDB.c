@@ -33,7 +33,10 @@ int main(int argc, char* args[]) {
     while (1) {
 
         /* TODO: Add quote on seeking knowledge. Only show once. */
-        printf("Seek Knowledge\n");
+        printf("\n");
+        printf("\"The only true wisdom is in knowing you know nothing.\"\n");
+        printf("  - Socrates\n");
+        printf("\n");
         printf("Enter the number for the question you would like to ask.\n\n");
         printf("1: What are the names and prices of all bottles purchased?\n");
         printf("2: How many total bottles have been purchased?\n");
