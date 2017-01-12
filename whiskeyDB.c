@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <sqlite3.h>
 
+#define USER_INPUT_BUFFERSIZE 2
+
+/* query function prototypes */
 void query1(sqlite3 *dbHandle);
 void query2(sqlite3 *dbHandle);
 void query3(sqlite3 *dbHandle);
@@ -27,35 +30,32 @@ int main(int argc, char* args[]) {
         return 1;
     }
 
-    int userInput;
-    int scanfReturn;
+    char userInput[USER_INPUT_BUFFERSIZE];
+    char *result;                           // return value from fgets()
+    int  selectedOption;                    // option selected by user
 
     while (1) {
 
-        /* TODO: Add quote on seeking knowledge. Only show once. */
         printf("\n");
         printf("\"The only true wisdom is in knowing you know nothing.\"\n");
         printf("  - Socrates\n");
         printf("\n");
-        printf("Enter the number for the question you would like to ask.\n\n");
+        printf("Enter the number for the question you would like to ask.\n");
+        printf("\n");
         printf("1: What are the names and prices of all bottles purchased?\n");
         printf("2: How many total bottles have been purchased?\n");
         printf("3: What bottles are available in the house?\n");
 
-        scanfReturn = scanf("%d", &userInput);
+        result = fgets(userInput, USER_INPUT_BUFFERSIZE, stdin);
 
-        if (scanfReturn == EOF) {
+        if (result == NULL) {
             printf("Error reading user input.\n");
-            exit(1);
-            continue;
-        }
-        if (scanfReturn == 0) {
-            printf("User input is invalid.\n\n");
-            while (fgetc(stdin) != '\n');
             continue;
         }
 
-        switch (userInput) {
+        selectedOption = atoi(userInput);
+
+        switch (selectedOption) {
             case 1:
                 printf("\n");
                 query1(dbHandle);
@@ -69,15 +69,19 @@ int main(int argc, char* args[]) {
                 query3(dbHandle);
                 break;
             default:
-                printf("Invalid number. Please enter a number from above.\n");
+                printf("\n");
+                printf("Invalid option. Please enter a number from above.\n");
+                printf("\n");
         }
 
         while (fgetc(stdin) != '\n');   // get rid of unwanted input
 
-        printf("Press Enter to perform another search.\n");
+        printf("Press Enter key to perform another search or "
+                    "press any other key to quit.\n");
+
         char enter = getchar();
-        while (enter != '\n') {
-            enter = getchar();
+        if (enter != '\n') {
+            return 1;
         }
     }
 
