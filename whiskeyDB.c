@@ -14,7 +14,7 @@ int main(int argc, char* args[]) {
     sqlite3 *dbHandle;         // Database connection handle
 
     /* Path to the whiskeyDB SQLite database file */
-    char *dbFile = "/Users/jaustingeorge/code/whiskeyDB/sqlite/whiskey.db";
+    char *dbFile = "./sqlite/whiskey.db";
 
     /* Opens the whiskeyDB SQLite database file */
     int returnCode = sqlite3_open(dbFile, &dbHandle);
