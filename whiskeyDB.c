@@ -34,12 +34,13 @@ int main(int argc, char* args[]) {
     char *result;                           // return value from fgets()
     int  selectedOption;                    // option selected by user
 
+    printf("\n");
+    printf("\"The only true wisdom is in knowing you know nothing.\"\n");
+    printf("  - Socrates\n");
+    printf("\n");
+
     while (1) {
 
-        printf("\n");
-        printf("\"The only true wisdom is in knowing you know nothing.\"\n");
-        printf("  - Socrates\n");
-        printf("\n");
         printf("Enter the number for the question you would like to ask.\n");
         printf("\n");
         printf("1: What are the names and prices of all bottles purchased?\n");
@@ -81,6 +82,9 @@ int main(int argc, char* args[]) {
 
         char enter = getchar();
         if (enter != '\n') {
+            printf("\n");
+            printf("Thank you for using the Whiskey Database.\n");
+            printf("\n");
             return 1;
         }
     }
