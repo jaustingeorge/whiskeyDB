@@ -165,11 +165,14 @@ void query3(sqlite3 *dbHandle) {
     sqlite3_stmt *stmtHandle;  // Prepared statement object
     int returnCode;            // Value returned from SQLite functions
 
-    char *sqlStmt = "SELECT Bottle.name "
+    char *sqlStmt = "SELECT Bottle.name, Distiller.name "
                       "FROM Purchase "
-                      "JOIN Bottle ON Purchase.bottleID = Bottle.bottleID "
-                     "WHERE onShelf = 1";
-                  //"ORDER BY Purchase.price";
+                      "JOIN Bottle " 
+                        "ON Purchase.bottleID = Bottle.bottleID "
+                      "JOIN Distiller " 
+                        "ON Bottle.distillerID = Distiller.distillerID "
+                     "WHERE onShelf = 1 "
+                  "ORDER BY Distiller.name";
 
     returnCode = sqlite3_prepare_v2(dbHandle, sqlStmt, -1, 
             &stmtHandle, 0);
@@ -182,12 +185,17 @@ void query3(sqlite3 *dbHandle) {
     }
 
     printf("The following bottles are available on the shelf:\n\n");
+    printf("%-40s%s\n", "Name", "Distillery");
+    printf("%-40s%s\n", "----", "-----");
 
     while (1) {
         returnCode = sqlite3_step(stmtHandle);
 
         if (returnCode == SQLITE_ROW) {
-            printf("%s\n", sqlite3_column_text(stmtHandle, 0));
+            //printf("%s\n", sqlite3_column_text(stmtHandle, 0));
+
+            printf("%-40s%s\n", sqlite3_column_text(stmtHandle, 0), 
+                    sqlite3_column_text(stmtHandle, 1));
         } else {
             printf("\n");
             break;
